@@ -1,0 +1,30 @@
+footer {
+    padding: 20px;
+    width: 100%;
+    background-color: #3B4573;
+    margin-top: 20px;
+    display: grid;
+    place-items: center;
+    gap: 20px;
+}
+
+.containerFooter {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.containerFooter a {
+    color: #fff;
+    text-decoration: none;
+}
+
+.containerFooter a strong {
+    color: white;
+    transition: .2s ease-in-out;
+}
+
+.containerFooter a strong:hover {
+    color: #FF9800;
+    opacity: 1;
+}

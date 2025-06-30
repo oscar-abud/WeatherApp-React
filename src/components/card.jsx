@@ -1,4 +1,4 @@
-import { useState } from "react"
+import { useEffect, useState } from "react"
 import './card.css'
 import Clouds from '../../public/images/cloud.png'
 import Clear from '../../public/images/clear.png'
@@ -24,7 +24,7 @@ const weatherTranslations = {
     "haze": "Neblina ligera",
     "fog": "Niebla",
     "thunderstorm": "Tormenta eléctrica",
-};
+}
 
 export default function Card() {
     const [searchValue, setSearchValue] = useState('')
@@ -37,11 +37,10 @@ export default function Card() {
     const [sunrise, setSunrise] = useState('')
     const [sunset, setSunset] = useState('')
 
-    const handleSearch = async (e) => {
-        e.preventDefault()
+    const fetchWeather = async (city) => {
         try {
             const response = await fetch(
-                `https://api.openweathermap.org/data/2.5/weather?q=${searchValue}&units=metric&appid=${ApiKey}`
+                `https://api.openweathermap.org/data/2.5/weather?q=${city}&units=metric&appid=${ApiKey}`
             )
             if (!response.ok) throw new Error('Ciudad no encontrada')
             const data = await response.json()
@@ -101,27 +100,37 @@ export default function Card() {
         }
     }
 
+    useEffect(() => {
+        fetchWeather('Santiago')
+    }, [])
+
+    const handleSearch = (e) => {
+        e.preventDefault()
+        if (searchValue.trim() !== '') fetchWeather(searchValue)
+    }
+
     const getTranslatedDescription = (desc) =>
-        weatherTranslations[desc.toLowerCase()] || desc;
+        weatherTranslations[desc.toLowerCase()] || desc
 
     return (
         <div>
             <div className="searchContainer">
-                <form
-                    onSubmit={handleSearch}
-                >
+                <form onSubmit={handleSearch}>
                     <input
                         type="text"
                         placeholder="Ingrese ciudad"
                         value={searchValue}
                         onChange={(e) => setSearchValue(e.target.value)}
                     />
-                    <button onClick={handleSearch}>🔍</button>
+                    <button>🔍</button>
                 </form>
 
                 {error && (
                     <div className="not-found">
-                        <h3 style={{ color: "white" }}>{error}</h3>
+                        <div className="containerError">
+                            <h2>¡Error!</h2>
+                            <strong style={{ color: "white" }}>{error}</strong>
+                        </div>
                         <img src={notInfo} alt="No encontrado" />
                     </div>
                 )}
@@ -133,9 +142,9 @@ export default function Card() {
                         <h1>{dataApi.name}</h1>
                         <img
                             src={imageWeather}
-                            alt={dataApi.weather[0].description || 'Clima'}
+                            alt={dataApi.weather?.[0]?.description || 'Clima'}
                         />
-                        <h2>{getTranslatedDescription(dataApi.weather[0].description)}</h2>
+                        <h2>{getTranslatedDescription(dataApi.weather?.[0]?.description || '')}</h2>
                         <h2>{Math.floor(dataApi.main.temp)} ° C</h2>
                     </div>
                     <div className="weather-box">

@@ -1,8 +1,8 @@
 .body {
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
+    display: grid;
+    grid-template-rows: auto 1fr auto;
     max-width: 100%;
     margin: 0 auto;
     text-align: center;
+    min-height: 100vh;
 }
