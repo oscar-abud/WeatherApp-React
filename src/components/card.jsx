@@ -171,7 +171,7 @@ export default function Card() {
                                 <strong>{dataApi.main.sea_level || 'N/A'} m</strong>
                             </div>
                             <div className="grid-item">
-                                <p>🗜 Presión</p>
+                                <p>🌀 Presión</p>
                                 <strong>{dataApi.main.pressure} mb</strong>
                             </div>
                             <div className="grid-item">
@@ -179,7 +179,7 @@ export default function Card() {
                                 <strong>{sunrise}</strong>
                             </div>
                             <div className="grid-item">
-                                <p>🌇 Atardecer</p>
+                                <p>🌅 Atardecer</p>
                                 <strong>{sunset}</strong>
                             </div>
                         </div>
